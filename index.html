@@ -5,16 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- فایل‌های مربوط به استایل و کتابخانه‌ها -->
+  <link href="style.css" rel="stylesheet">
   <link href="bootstrap-5.3.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="fontawesome/css/all.min.css" rel="stylesheet">
   <link href="photo/icon/favicon.png" rel="icon">
   <link href="Swiperjs/swiper-bundle.min.css" rel="stylesheet">
-  <!-- استایل اصلی شما -->
-  <link href="style.css" rel="stylesheet">
 
-  <!-- چند استایل اختصاصی کوتاه -->
   <style>
+    /* ===== از اینجا به بعد، CSS اصلی پروژه ===== */
     .project .project-div {
       position: relative;
       height: 250px;
@@ -53,40 +51,998 @@
     .swiper-button-next, .swiper-button-prev {
       color: #000;
     }
+
+    /* ===== کدهای اضافه‌شده برای منوی موبایل ===== */
+    .sidebar-mobile {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 280px;
+      height: 100vh;
+      background-color: black; /* در حالت عادی سفید */
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: all 0.3s ease-in-out;
+    }
+    .sidebar-mobile.sidebar-open {
+      transform: translateX(0);
+    }
+
+    /* تم تاریک؛ هیچ پس‌زمینه سفید نماند */
+    body.dark-theme {
+      background-color: #000 !important;
+      color: #f1f1f1 !important;
+    }
+    body.dark-theme .sidebar,
+    body.dark-theme .sidebar-mobile {
+      background-color: #000 !important;
+    }
+
+    /* پس‌زمینه تمام بخش‌های داخلی سایدبار موبایل در حالت تاریک را هم مشکی می‌کنیم */
+    body.dark-theme .sidebar-mobile .div-sidebar-mobile,
+    body.dark-theme .sidebar-mobile .navbar-div,
+    body.dark-theme .sidebar-mobile .setting-div,
+    body.dark-theme .sidebar-mobile .accordion-collapse,
+    body.dark-theme .sidebar-mobile .dropdown-menu,
+    body.dark-theme .sidebar-mobile ul,
+    body.dark-theme .sidebar-mobile li {
+      background-color: #000 !important;
+      color: #f1f1f1 !important;
+    }
   </style>
 </head>
-
 <body dir="rtl">
+  <section class="container mt-4 mb-4">
+    <div class="row">
+      <!-- سایدبار دسکتاپ -->
+      <div class="sidebar d-none d-md-block col-md-2 m-2 p-0">
+        <div class="navbar-div mb-3">
+          <div class="img-div mb-3"></div>
+          <ul>
+            <div class="d-flex div-menu active-menu" onclick="activePage('#about')">
+              <i class="fa fa-user"></i>
+              <li> درباره من </li>
+            </div>
+            <div class="d-flex div-menu" onclick="activePage('#resume')">
+              <i class="fa-solid fa-file-lines"></i>
+              <li> رزومه من </li>
+            </div>
+            <div class="d-flex div-menu" onclick="activePage('#project')">
+              <i class="fa-solid fa-cubes-stacked"></i>
+              <li> نمونه کارها </li>
+            </div>
+            <div class="d-flex first-child-li div-menu" onclick="activePage('#call')">
+              <i class="fa-solid fa-phone-volume"></i>
+              <li> تماس با من </li>
+            </div>
+          </ul>
+        </div>
+        <div class="setting-div">
+          <ul>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+              <div class="d-flex collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
+                <div><i class="fa fa-gear"></i></div>
+                <li> تنظیمات </li>
+                <i class="fa-solid fa-angle-down down-up-d"></i>
+              </div>
+            </div>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="d-flex accordion-body div-color">
+                <li>
+                  <p> رنگ های آماده </p>
+                  <button class="button-color-style orange" value="orange"></button>
+                  <button class="button-color-style pink" value="pink"></button>
+                  <button class="button-color-style purple" value="purple"></button>
+                  <button class="button-color-style gold" value="gold"></button>
+                  <button class="button-color-style brown" value="brown"></button>
+                  <button class="button-color-style red" value="red"></button>
+                  <button class="button-color-style blue" value="blue"></button>
+                  <button class="button-color-style green" value="green"></button>
+                </li>
+              </div>
+              <div class="d-flex accordion-body div-color">
+                <li>
+                  <p> تنظیم دستی رنگ </p>
+                  <div class="d-flex mt-2 div-custom-color">
+                    <p> رنگ اصلی </p>
+                    <input type="color" value="#FFCC00" oninput="getColorCodeOne(this.value)" class="custom-color">
+                  </div>
+                  <div class="d-flex mt-2 div-custom-color">
+                    <p> رنگ فرعی </p>
+                    <input type="color" value="#000" oninput="getColorCodeTwo(this.value)" class="custom-color">
+                  </div>
+                </li>
+              </div>
+              <div class="accordion-body div-color" style="border-bottom:none !important;">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    فونت عنوان
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item title" value="vazir" style="font-family: Vazir !important;"> وزیر </button></li>
+                    <li><button class="dropdown-item title" value="Estedad" style="font-family: Estedad !important;"> استعداد </button></li>
+                    <li><button class="dropdown-item title" value="IranSans" style="font-family: IranSans !important;"> ایران سنس </button></li>
+                    <li><button class="dropdown-item title" value="Lalezar" style="font-family: Lalezar !important;"> لاله زار </button></li>
+                    <li><button class="dropdown-item title" value="titr" style="font-family: titr !important;"> تیتر </button></li>
+                    <li><button class="dropdown-item title" value="yekan" style="font-family: Yekan !important;"> یکان </button></li>
+                    <li><button class="dropdown-item title" value="Shabnam" style="font-family: Shabnam !important;"> شبنم </button></li>
+                    <li><button class="dropdown-item title" value="Sahel" style="font-family: Sahel !important;"> ساحل </button></li>
+                    <li><button class="dropdown-item title" value="Tanha" style="font-family: Tanha !important;"> تنها </button></li>
+                    <li><button class="dropdown-item title" value="Samim" style="font-family: Samim !important;"> صمیم </button></li>
+                    <li><button class="dropdown-item title" value="Rezvan" style="font-family: Rezvan !important;"> رضوان </button></li>
+                  </ul>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    فونت متن
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item text" value="vazir" style="font-family: Vazir !important;"> وزیر </button></li>
+                    <li><button class="dropdown-item text" value="Estedad" style="font-family: Estedad !important;"> استعداد </button></li>
+                    <li><button class="dropdown-item text" value="IranSans" style="font-family: IranSans !important;"> ایران سنس </button></li>
+                    <li><button class="dropdown-item text" value="Lalezar" style="font-family: Lalezar !important;"> لاله زار </button></li>
+                    <li><button class="dropdown-item text" value="titr" style="font-family: titr !important;"> تیتر </button></li>
+                    <li><button class="dropdown-item text" value="yekan" style="font-family: Yekan !important;"> یکان </button></li>
+                    <li><button class="dropdown-item text" value="Shabnam" style="font-family: Shabnam !important;"> شبنم </button></li>
+                    <li><button class="dropdown-item text" value="Sahel" style="font-family: Sahel !important;"> ساحل </button></li>
+                    <li><button class="dropdown-item text" value="Tanha" style="font-family: Tanha !important;"> تنها </button></li>
+                    <li><button class="dropdown-item text" value="Samim" style="font-family: Samim !important;"> صمیم </button></li>
+                    <li><button class="dropdown-item text" value="Rezvan" style="font-family: Rezvan !important;"> رضوان </button></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <!-- پایان سایدبار دسکتاپ -->
 
-<!-- دکمه منوی همبرگری (بالای سایت سمت راست در موبایل) -->
-<div class="hamburger-btn d-md-none" 
-     style="position: fixed; top: 10px; right: 10px; z-index: 999;">
-  <button onclick="toggleSidebarMobile()" style="background: transparent; border: none;">
-    <!-- آیکن جذاب همبرگری -->
-    <i class="fa-solid fa-bars-staggered" style="font-size: 28px; color: var(--one-color);"></i>
-  </button>
-</div>
+      <!-- شروع صفحه اصلی (محتوا) -->
+      <div class="page col m-2">
+        <div class="header mb-3">
+          <div class="row">
+            <div class="col-12 col-lg-7 mb-3 mb-lg-0 name">
+              <div class="row">
+                <div class="col-8 w-auto">
+                  <h1> محمد حسین حسن زاده </h1>
+                </div>
+                <div class="col-4 w-auto mt-2 p-0">
+                  <span class="job"> برنامه نویس وب </span>
+                </div>
+              </div>
+            </div>
 
-<section class="container mt-4 mb-4">
-  <div class="row">
-    <!-- سایدبار دسکتاپ (بدون تغییر) -->
-    <div class="sidebar d-none d-md-block col-md-2 m-2 p-0">
+            <!-- ناحیه بالایی: آیکون‌های زبان، تم، و منوی همبرگری (فقط موبایل) در سمت چپ -->
+            <div class="col-12 col-lg-5 network">
+              <div class="row justify-content-start align-items-center">
+                <!-- تم تاریک/روشن -->
+                <div class="col-auto p-1 div-night" onclick="toggleTheme()" style="color:#FFD700;">
+                  <i class="fa-solid fa-sun"></i>
+                </div>
+                <!-- تغییر زبان -->
+                <div class="col-auto p-1 language" style="color:#FFD700;">
+                  <a href="index-EN.html">
+                    <i class="fa-solid fa-earth-americas RTL-E"></i>
+                  </a>
+                </div>
+                <!-- منوی همبرگری (فقط موبایل) -->
+                <div class="col-auto p-1 hamburger-icon d-block d-md-none" onclick="toggleSidebarMobile()" style="color:#FFD700; cursor:pointer;">
+                  <i class="fa-solid fa-bars" style="font-size:1.2rem;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== درباره من ===== -->
+        <div class="about-me page-child active" id="about">
+          <div class="row row-background-image">
+            <div class="col-12 div-background-image">
+              <img src="photo/background.png" alt="#">
+              <div class="div-about-me mt-4 mt-md-0">
+                <h2><span id="fixed-word"></span> <span id="typing-text"></span></h2>
+                <p id="typing-text-p"> مسلط به چندین زبان برنامه نویسی، و طراحی سایت با چندین سال تجربه مفید.</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mt-4 mt-md-0">
+              <div class="row mt-4">
+                <div class="about">
+                  <h2 style="margin-bottom: 20px;"> درباره <b> من </b> </h2>
+                  <p style="line-height: 3;">
+                    من 4 سال ب صورت حرفه ای در حوزه طراحی فرانت اند سایت کار میکنم  
+                    و قبل از این هم در کار تولید محتوا بودم.
+                    و چندین سال ب صورت حرفه ای در شبکه های اجتماعی فعالیت داشتم.
+                  </p>
+                </div>
+                <div class="title-pages mb-3">
+                  <h2 class="mt-4"> اطلاعات <b> پایه </b> </h2>
+                </div>
+                <div class="col-12 col-md-6 about">
+                  <ul>
+                    <li> تاریخ تولد: <span> 1370/03/27 </span> </li>
+                    <li> شماره تماس: <span> 09926559671 </span> </li>
+                    <li> محل سکونت: <span> قم </span> </li>
+                    <li> ایمیل: <span> hasanzade.hoseyn27@gmail.com </span> </li>
+                  </ul>
+                </div>
+                <div class="col-12 col-md-6 about">
+                  <ul>
+                    <li> مدرک تحصیلی: <span> کارشناسی ارشد </span> </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== رزومه ===== -->
+        <div class="my-resume page-child" id="resume">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <h2> سوابق <b>تحصیلی</b> </h2>
+              <div class="div-resume mt-3">
+                <h3> مدرک کارشناسی </h3>
+                <p>لیسانس مهندسی صنایع</p>
+              </div>
+              <div class="div-resume mt-3">
+                <h3>مدرک کارشناسی ارشد</h3>
+                <p>مدیریت صنعتی</p>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 mt-3 mt-md-0">
+              <h2> سوابق <b>شغلی</b> </h2>
+              <div class="div-resume mt-3">
+                <h3> برنامه نویسی </h3>
+                <p style="line-height:2;">4 سال در شرکت مدیریت صنعت نکو کار کردم <br> در حوزه طراحی فرانت اند سایت</p>
+              </div>
+              <div class="div-resume mt-3">
+                <h3> تولید محتوا </h3>
+                <p style="line-height:2;">حدود 10 سال به صورت حرفه ای در شبکه های اجتماعی فعالیت داشتم<br> در اپلیکیشن های تلگرام وایتا </p>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-12 col-md Skill">
+              <h2> مهارت های <b>پایه</b> </h2>
+              <h6 class="mt-3"> HTML - CSS </h6>
+              <span class="Rtl-Ltr"> 100% </span>
+              <div class="div-meter"><div style="width: 100%;"></div></div>
+              <h6 class="mt-3">JavaScript</h6>
+              <span class="Rtl-Ltr"> 70% </span>
+              <div class="div-meter"><div style="width: 70%;"></div></div>
+              <h6 class="mt-3">English</h6>
+              <span class="Rtl-Ltr">50% </span>
+              <div class="div-meter"><div style="width:50%;"></div></div>
+              <h6 class="mt-3">WordPress</h6>
+              <span class="Rtl-Ltr">90% </span>
+              <div class="div-meter"><div style="width:90%;"></div></div>
+            </div>
+            <div class="col-12 col-md Skill mt-5 mt-md-0">
+              <h2> مهارت های <b>برنامه نویسی</b> </h2>
+              <h6 class="mt-3"> React Js </h6>
+              <span class="Rtl-Ltr"> 80% </span>
+              <div class="div-meter"><div style="width:80%;"></div></div>
+              <h6 class="mt-3"> Vue Js </h6>
+              <span class="Rtl-Ltr">70% </span>
+              <div class="div-meter"><div style="width: 70%;"></div></div>
+              <h6 class="mt-3"> Next Js </h6>
+              <span class="Rtl-Ltr">60% </span>
+              <div class="div-meter"><div style="width:60%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== نمونه کارها ===== -->
+        <div class="project page-child" id="project">
+          <h2> نمونه <b>کارها</b> </h2>
+          <p> ما در اینجا به برسی چندین تا از نمونه کار های بنده می پردازیم ... </p>
+          <div class="row mt-4 mw-100 m-auto">
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-programmer">
+              <img src="photo/progect/necovue/necovue2.png" alt="project">
+              <span> Vue js </span>
+              <p> نام پروژه : <br> مدیریت پروژه صنعت نکو نسخه ویو </p>
+            </div>
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-react">
+              <img src="photo/progect/necoreact/react2.png" alt="project">
+              <span> React </span>
+              <p> نام پروژه : </p>
+            </div>
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-nextjs">
+              <img src="photo/progect/parchenext/parche4.png" alt="project">
+              <span> Next Js </span>
+              <p> نام پروژه : </p>
+            </div>
+          </div>
+          <div class="row mt-4 mw-100 m-auto">
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-wordpress">
+              <img src="photo/progect/wordpress/sushi1.png" alt="project">
+              <span> WordPress </span>
+              <p> نام پروژه : </p>
+            </div>
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-gtc">
+              <img src="photo/progect/gtc/gtc2.png" alt="project">
+              <span> React </span>
+              <p> نام پروژه : </p>
+            </div>
+            <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-gtcadmin">
+              <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
+              <span> React </span>
+              <p> نام پروژه : </p>
+            </div>
+          </div>
+
+          <!-- مدال‌های نمونه کارها -->
+          <!-- Vue JS Modal -->
+          <div class="modal fade" id="exampleModal-programmer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">نام پروژه : ...</h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue1.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue2.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue4.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue4.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue5.png">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue1.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue2.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue3.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necovue/necovue5.png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7"> 
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br><br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            شرکت مدیریت صنعتی NECO <br>
+                            تهران، ایران <br>
+                            وظایف و دستاوردها <br>
+                            توسعه برنامه‌های وب برای سازمان NECO، که یک برنامه مدیریت پروژه‌های بزرگ است.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- React Modal -->
+          <div class="modal fade" id="exampleModal-react" tabindex="-1" aria-labelledby="exampleModalLabelReact" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabelReact">نام پروژه : </h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react1.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react2.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react3.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react4.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react5.png">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react1.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react2.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react3.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react4.png">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/necoreact/react5.png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br><br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            توضیحات پروژه ری‌اکت در اینجا قرار می‌گیرد.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NextJS Modal -->
+          <div class="modal fade" id="exampleModal-nextjs" tabindex="-1" aria-labelledby="exampleModalLabelNext" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabelNext">نام پروژه : ...</h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche5.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche6.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche7.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche8.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche9.png" alt="project">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche5.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche6.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche7.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche8.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/parchenext/parche9.png" alt="project">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            یک فروشگاه پارچه با محصولات متنوع <br>
+                            شامل انواع پارچه‌های باکیفیت و طرح‌های منحصر به فرد.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WordPress Modal -->
+          <div class="modal fade" id="exampleModal-wordpress" tabindex="-1" aria-labelledby="exampleModalLabelWP" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabelWP">نام پروژه : </h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi3.png" alt="project">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/wordpress/sushi3.png" alt="project">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7"> 
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            شامل ویژگی‌ها و دستاوردهای این پروژه <br>
+                            و سایر جزئیات مربوط به توسعه و طراحی.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- React GTC Modal -->
+          <div class="modal fade" id="exampleModal-gtc" tabindex="-1" aria-labelledby="exampleModalLabelGTC" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabelGTC">نام پروژه : </h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc5.png" alt="project">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtc/gtc5.png" alt="project">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7"> 
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br><br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            شرکت مدیریت صنعتی NECO <br>
+                            تهران، ایران <br>
+                            وظایف و دستاوردها <br>
+                            توسعه برنامه‌های وب برای سازمان NECO، که یک برنامه مدیریت پروژه‌های بزرگ است.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- React GTC Admin Modal -->
+          <div class="modal fade" id="exampleModal-gtcadmin" tabindex="-1" aria-labelledby="exampleModalLabelGTCAdmin" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabelGTCAdmin">نام پروژه : </h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin5.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin6.png" alt="project">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin1.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin2.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin4.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin5.png" alt="project">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/gtcadmin/gtcadmin6.png" alt="project">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                      <ul>
+                        <li class="mt-3"> توضیحات تکمیلی: <br><br>
+                          <span style="line-height: 2; display: block; margin-top: 10px;">
+                            این پنل ادمین سایت معامله طلا است<br>
+                            که کلا یک پروژه جداگانه است<br>
+                            و این هم با سوکت ب صورت حرفه ای کار میکند
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- نمونه کار آخر -->
+          <div class="modal fade" id="exampleModal-site" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">نام پروژه : ...</h1>
+                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-12 col-md-5">
+                      <div class="swiper mySwiper2-project">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                      </div>
+                      <div class="swiper mySwiper-project" style="margin-top:10px;">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                          <div class="swiper-slide">
+                            <img src="photo/progect/design website/design-website.jpg">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-lg-7">
+                      <h3 class="mt-3 mt-md-0"> توضیحات <b>پروژه</b> </h3>
+                      <ul>
+                        <li class="mt-4"> نام طراح: <span> محمد رحمانی </span> </li>
+                        <li class="mt-3"> تاریخ شروع پروژه: <span> ۱۴۰۲/۴/۲۸ </span> </li>
+                        <li class="mt-3"> تاریخ اتمام پروژه: <span> ۱۴۰۲/۵/۲۸ </span> </li>
+                        <li class="mt-3"> لینک پروژه: <span> <a href="#"> www.site.com </a> </span> </li>
+                        <li class="mt-3"> توضیحات تکمیلی:
+                          <span>
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                            استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و
+                            مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
+                            مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                          </span>
+                        </li>
+                        <button class="mt-5"> تماس با ما </button>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                  <a href="#"><button type="button">اشتراک گذاری</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== بخش بلاگ (غیرفعال) ===== -->
+        <div class="blog page-child" id="blog">
+          <h2> مقالات <b>سایت</b> </h2>
+          <p> برای آگاهی بیشتر و دریافت اطلاعات در مورد برنامه نویسی به مقالات سایت ما مراجعه کنید ... </p>
+          <div class="row mt-4 mw-100 m-auto">
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> سئو چیست؟ </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> انواع هوش مصنوعی </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> سئو سایت چقدر طول میکشد؟ </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mw-100 m-auto">
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> همه چیز درباره بازاریابی محتوا </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> معرفی ابزارک های فتوشاپ </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md blog-div mb-3 m-md-2">
+              <div class="div-content">
+                <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
+                <span class="date"> ۲۸ آذر </span>
+                <div>
+                  <a href="blog.html"><h3> آموزش نصب کورل </h3></a>
+                  <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
+                  <span> بدون دیدگاه </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== تماس با من ===== -->
+        <div class="call page-child" id="call">
+          <div class="row">
+            <h2> برای تماس <b> با من </b> ایمیل دهید</h2>
+            <div class="col-12 col-md-6 div-call-form mt-2">
+              <form>
+                <input disabled type="text" placeholder="نام و نام خانوادگی">
+                <br>
+                <input disabled type="number" placeholder="شماره تماس">
+                <br>
+                <textarea disabled> با سلام و خسته نباشید... </textarea>
+            </div>
+            <div class="col-12 col-md-6 mt-2 div-call-list">
+              <ul>
+                <li> شماره تماس: <span> .. </span> </li>
+                <li> محل سکونت: <span> قم </span> </li>
+                <li> ایمیل: <span> hasanzade.hoseyn27@gmail.com </span> </li>
+                <li> وب سایت: <span> www..com </span> </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row mt-2 div-blog-submit">
+            <div class="col">
+              <button disabled type="submit"> ارسال پیغام </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- پایان محتوای اصلی -->
+      </div>
+      <!-- پایان page -->
+    </div>
+  </section>
+
+  <!-- سایدبار موبایل -->
+  <div class="sidebar sidebar-mobile p-0 d-md-none">
+    <div class="div-sidebar-mobile">
+      <div class="img-div mb-3"></div>
       <div class="navbar-div mb-3">
-        <div class="img-div mb-3"></div>
         <ul>
-          <div class="d-flex div-menu active-menu" onclick="activePage('#about')">
+          <div class="d-flex div-menu active-menu" onclick="activePage('#about'); toggleSidebarMobile();">
             <i class="fa fa-user"></i>
             <li> درباره من </li>
           </div>
-          <div class="d-flex div-menu" onclick="activePage('#resume')">
+          <div class="d-flex div-menu" onclick="activePage('#resume'); toggleSidebarMobile();">
             <i class="fa-solid fa-file-lines"></i>
             <li> رزومه من </li>
           </div>
-          <div class="d-flex div-menu" onclick="activePage('#project')">
+          <div class="d-flex div-menu" onclick="activePage('#service'); toggleSidebarMobile();">
+            <i class="fa-solid fa-briefcase"></i>
+            <li> خدمات </li>
+          </div>
+          <div class="d-flex div-menu" onclick="activePage('#project'); toggleSidebarMobile();">
             <i class="fa-solid fa-cubes-stacked"></i>
             <li> نمونه کارها </li>
           </div>
-          <div class="d-flex first-child-li div-menu" onclick="activePage('#call')">
+          <div class="d-flex first-child-li div-menu" onclick="activePage('#call'); toggleSidebarMobile();">
             <i class="fa-solid fa-phone-volume"></i>
             <li> تماس با من </li>
           </div>
@@ -104,7 +1060,7 @@
           <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
             <div class="d-flex accordion-body div-color">
               <li>
-                <p> رنگ های آماده </p>
+                <p> رنگ </p>
                 <button class="button-color-style orange" value="orange"></button>
                 <button class="button-color-style pink" value="pink"></button>
                 <button class="button-color-style purple" value="purple"></button>
@@ -165,982 +1121,103 @@
               </div>
             </div>
           </ul>
-        </div>
-      </div>
-    </div>
-    <!-- پایان سایدبار دسکتاپ -->
 
-    <!-- بخش محتوای اصلی صفحه -->
-    <div class="page col m-2">
-      <div class="header mb-3">
-        <div class="row">
-          <div class="col-12 col-lg-7 mb-3 mb-lg-0 name">
-            <div class="row">
-              <div class="col-8 w-auto">
-                <h1> محمد حسین حسن زاده </h1>
+          <div class="button-sidebar-mobile">
+            <!-- زبان -->
+            <a href="index-EN.html">
+              <div class="language d-flex pb-2" style="color:#FFD700;">
+                <i class="fa-solid fa-earth-americas RTL-E"></i>
               </div>
-              <div class="col-4 w-auto mt-2 p-0">
-                <span class="job"> برنامه نویس وب </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-5 network">
-            <div class="row">
-              <div class="col-5 div-resume-link Rtl-Ltr">
-                <div class="p-1 div-night">
-                  <i class="fa-solid fa-sun"></i>
-                </div>
-                <div class="p-1 language">
-                  <a href="index-EN.html"><i class="fa-solid fa-earth-americas RTL-E"></i></a>
-                </div>
-              </div>
-            </div>
+            </a>
+            <!-- بستن منوی موبایل -->
+            <a href="javascript:void(0);" onclick="toggleSidebarMobile();">
+              <div class="button-sidebar" style="color:#FFD700;"><i class="fa-solid fa-angles-left"></i></div>
+            </a>
+            <!-- تم تاریک/روشن -->
+            <a href="javascript:void(0);" onclick="toggleTheme();">
+              <div class="div-night d-flex pt-2" style="color:#FFD700;"><i class="fa-solid fa-sun"></i></div>
+            </a>
           </div>
         </div>
-      </div><!-- پایان هدر -->
-
-      <!-- درباره من -->
-      <div class="about-me page-child active" id="about">
-        <div class="row row-background-image">
-          <div class="col-12 div-background-image">
-            <img src="photo/background.png" alt="#">
-            <div class="div-about-me mt-4 mt-md-0">
-              <h2><span id="fixed-word"></span> <span id="typing-text"></span></h2>
-              <p id="typing-text-p"> مسلط به چندین زبان برنامه نویسی، و طراحی سایت با چندین سال تجربه مفید.</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 mt-4 mt-md-0">
-            <div class="row mt-4">
-              <div class="about">
-                <h2 style="margin-bottom: 20px;"> درباره <b> من </b> </h2>
-                <p style="line-height: 3;">
-                  من 4 سال ب صورت حرفه ای در حوزه طراحی فرانت اند سایت کار میکنم  
-                  و قبل از این هم در کار تولید محتوا بودم.
-                  و چندین سال ب صورت حرفه ای در شبکه های اجتماعی فعالیت داشتم.
-                </p>
-              </div>
-              <div class="title-pages mb-3">
-                <h2 class="mt-4"> اطلاعات <b> پایه </b> </h2>
-              </div>
-              <div class="col-12 col-md-6 about">
-                <ul>
-                  <li> تاریخ تولد: <span> 1370/03/27 </span> </li>
-                  <li> شماره تماس: <span> 09926559671 </span> </li>
-                  <li> محل سکونت: <span> قم </span> </li>
-                  <li> ایمیل: <span> hasanzade.hoseyn27@gmail.com </span> </li>
-                </ul>
-              </div>
-              <div class="col-12 col-md-6 about">
-                <ul>
-                  <li> مدرک تحصیلی: <span> کارشناسی ارشد </span> </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- پایان درباره من -->
-
-      <!-- رزومه من -->
-      <div class="my-resume page-child" id="resume">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <h2> سوابق <b>تحصیلی</b> </h2>
-            <div class="div-resume mt-3">
-              <h3> مدرک کارشناسی </h3>
-              <p>لیسانس مهندسی صنایع</p>
-            </div>
-            <div class="div-resume mt-3">
-              <h3>مدرک کارشناسی ارشد</h3>
-              <p>مدیریت صنعتی</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 mt-3 mt-md-0">
-            <h2> سوابق <b>شغلی</b> </h2>
-            <div class="div-resume mt-3">
-              <h3> برنامه نویسی </h3>
-              <p style="line-height:2;">4 سال در شرکت مدیریت صنعت نکو کار کردم <br> در حوزه طراحی فرانت اند سایت</p>
-            </div>
-            <div class="div-resume mt-3">
-              <h3> تولید محتوا </h3>
-              <p style="line-height:2;">حدود 10 سال به صورت حرفه ای در شبکه های اجتماعی فعالیت داشتم<br> در اپلیکیشن های تلگرام وایتا </p>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-12 col-md Skill">
-            <h2> مهارت های <b>پایه</b> </h2>
-            <h6 class="mt-3"> HTML - CSS </h6>
-            <span class="Rtl-Ltr"> 100% </span>
-            <div class="div-meter"><div style="width: 100%;"></div></div>
-            <h6 class="mt-3">JavaScript</h6>
-            <span class="Rtl-Ltr"> 70% </span>
-            <div class="div-meter"><div style="width: 70%;"></div></div>
-            <h6 class="mt-3">English</h6>
-            <span class="Rtl-Ltr">50% </span>
-            <div class="div-meter"><div style="width:50%;"></div></div>
-            <h6 class="mt-3">WordPress</h6>
-            <span class="Rtl-Ltr">90% </span>
-            <div class="div-meter"><div style="width:90%;"></div></div>
-          </div>
-          <div class="col-12 col-md Skill mt-5 mt-md-0">
-            <h2> مهارت های <b>برنامه نویسی</b> </h2>
-            <h6 class="mt-3"> React Js </h6>
-            <span class="Rtl-Ltr"> 80% </span>
-            <div class="div-meter"><div style="width:80%;"></div></div>
-            <h6 class="mt-3"> Vue Js </h6>
-            <span class="Rtl-Ltr">70% </span>
-            <div class="div-meter"><div style="width: 70%;"></div></div>
-            <h6 class="mt-3"> Next Js </h6>
-            <span class="Rtl-Ltr">60% </span>
-            <div class="div-meter"><div style="width:60%;"></div></div>
-          </div>
-        </div>
-      </div><!-- پایان رزومه من -->
-
-      <!-- نمونه کارها -->
-      <div class="project page-child" id="project">
-        <h2> نمونه <b>کارها</b> </h2>
-        <p> ما در اینجا به برسی چندین تا از نمونه کار های بنده می پردازیم ... </p>
-        <div class="row mt-4 mw-100 m-auto">
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-programmer">
-            <img src="photo/progect/necovue/necovue2.png" alt="project">
-            <span> Vue js </span>
-            <p> نام پروژه : <br> مدیریت پروژه صنعت نکو نسخه ویو </p>
-          </div>
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-react">
-            <img src="photo/progect/necoreact/react2.png" alt="project">
-            <span> React </span>
-            <p> نام پروژه : </p>
-          </div>
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-nextjs">
-            <img src="photo/progect/parchenext/parche4.png" alt="project">
-            <span> Next Js </span>
-            <p> نام پروژه : </p>
-          </div>
-        </div>
-        <div class="row mt-4 mw-100 m-auto">
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-wordpress">
-            <img src="photo/progect/wordpress/sushi1.png" alt="project">
-            <span> WordPress </span>
-            <p> نام پروژه : </p>
-          </div>
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-gtc">
-            <img src="photo/progect/gtc/gtc2.png" alt="project">
-            <span> React </span>
-            <p> نام پروژه : </p>
-          </div>
-          <div class="col-12 col-md project-div m-auto mb-3 m-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal-gtcadmin">
-            <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
-            <span> React </span>
-            <p> نام پروژه : </p>
-          </div>
-        </div>
-
-        <!-- مودال Vue -->
-        <div class="modal fade" id="exampleModal-programmer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">نام پروژه : ...</h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue1.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue2.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue4.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue4.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue5.png">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue1.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue2.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue3.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necovue/necovue5.png">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7"> 
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br><br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          شرکت مدیریت صنعتی NECO <br>
-                          تهران، ایران <br>
-                          وظایف و دستاوردها <br>
-                          توسعه برنامه‌های وب برای سازمان NECO، که یک برنامه مدیریت پروژه‌های بزرگ است.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- مودال React -->
-        <div class="modal fade" id="exampleModal-react" tabindex="-1" aria-labelledby="exampleModalLabelReact" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabelReact">نام پروژه : </h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react1.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react2.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react3.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react4.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react5.png">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react1.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react2.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react3.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react4.png">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/necoreact/react5.png">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7">
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br><br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          توضیحات پروژه ری‌اکت در اینجا قرار می‌گیرد.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- مودال Next Js -->
-        <div class="modal fade" id="exampleModal-nextjs" tabindex="-1" aria-labelledby="exampleModalLabelNext" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabelNext">نام پروژه : ...</h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche5.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche6.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche7.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche8.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche9.png" alt="project">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche5.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche6.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche7.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche8.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/parchenext/parche9.png" alt="project">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7">
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          یک فروشگاه پارچه با محصولات متنوع <br>
-                          شامل انواع پارچه‌های باکیفیت و طرح‌های منحصر به فرد.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- مودال وردپرس -->
-        <div class="modal fade" id="exampleModal-wordpress" tabindex="-1" aria-labelledby="exampleModalLabelWP" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabelWP">نام پروژه : </h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi3.png" alt="project">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/wordpress/sushi3.png" alt="project">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7"> 
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          شامل ویژگی‌ها و دستاوردهای این پروژه <br>
-                          و سایر جزئیات مربوط به توسعه و طراحی.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- مودال gtc -->
-        <div class="modal fade" id="exampleModal-gtc" tabindex="-1" aria-labelledby="exampleModalLabelGTC" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabelGTC">نام پروژه : </h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc5.png" alt="project">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtc/gtc5.png" alt="project">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7"> 
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br><br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          شرکت مدیریت صنعتی NECO <br>
-                          تهران، ایران <br>
-                          وظایف و دستاوردها <br>
-                          توسعه برنامه‌های وب برای سازمان NECO، که یک برنامه مدیریت پروژه‌های بزرگ است.
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- مودال gtcadmin -->
-        <div class="modal fade" id="exampleModal-gtcadmin" tabindex="-1" aria-labelledby="exampleModalLabelGTCAdmin" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabelGTCAdmin">نام پروژه : </h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin5.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin6.png" alt="project">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin1.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin2.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin3.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin4.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin5.png" alt="project">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/gtcadmin/gtcadmin6.png" alt="project">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7">
-                    <ul>
-                      <li class="mt-3"> توضیحات تکمیلی: <br><br>
-                        <span style="line-height: 2; display: block; margin-top: 10px;">
-                          این پنل ادمین سایت معامله طلا است<br>
-                          که کلا یک پروژه جداگانه است<br>
-                          و این هم با سوکت ب صورت حرفه ای کار میکند
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- یک مودال دیگر که در کد اصلی شما وجود داشت -->
-        <div class="modal fade" id="exampleModal-site" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">نام پروژه : ...</h1>
-                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <div class="swiper mySwiper2-project">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                      </div>
-                      <div class="swiper-button-next"></div>
-                      <div class="swiper-button-prev"></div>
-                    </div>
-                    <div class="swiper mySwiper-project" style="margin-top:10px;">
-                      <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                        <div class="swiper-slide">
-                          <img src="photo/progect/design website/design-website.jpg">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-7">
-                    <h3 class="mt-3 mt-md-0"> توضیحات <b>پروژه</b> </h3>
-                    <ul>
-                      <li class="mt-4"> نام طراح: <span> محمد رحمانی </span> </li>
-                      <li class="mt-3"> تاریخ شروع پروژه: <span> ۱۴۰۲/۴/۲۸ </span> </li>
-                      <li class="mt-3"> تاریخ اتمام پروژه: <span> ۱۴۰۲/۵/۲۸ </span> </li>
-                      <li class="mt-3"> لینک پروژه: <span> <a href="#"> www.site.com </a> </span> </li>
-                      <li class="mt-3"> توضیحات تکمیلی: 
-                        <span> 
-                          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و ...
-                        </span> 
-                      </li>
-                      <button class="mt-5"> تماس با ما </button>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                <a href="#"><button type="button">اشتراک گذاری</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- پایان نمونه کارها -->
-
-      <!-- سکشن بلاگ (اگرچه آیتم منویی برایش ندارید اما حذف نکرده‌ایم) -->
-      <div class="blog page-child" id="blog">
-        <h2> مقالات <b>سایت</b> </h2>
-        <p> برای آگاهی بیشتر و دریافت اطلاعات در مورد برنامه نویسی به مقالات سایت ما مراجعه کنید ... </p>
-        <div class="row mt-4 mw-100 m-auto">
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> سئو چیست؟ </h3></a>
-                <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> انواع هوش مصنوعی </h3></a>
-                <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-1.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> سئو سایت چقدر طول میکشد؟ </h3></a>
-                <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mw-100 m-auto">
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> همه چیز درباره بازاریابی محتوا </h3></a>
-                <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> معرفی ابزارک های فتوشاپ </h3></a>
-                <p> لورم ایپسوم متن ساختگی با... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md blog-div mb-3 m-md-2">
-            <div class="div-content">
-              <a href="blog.html"><img src="photo/blog/blog-2.jpg" class="mw-100" alt="blog"></a>
-              <span class="date"> ۲۸ آذر </span>
-              <div>
-                <a href="blog.html"><h3> آموزش نصب کورل </h3></a>
-                <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم... </p>
-                <span> بدون دیدگاه </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- پایان بلاگ -->
-
-      <!-- تماس با من -->
-      <div class="call page-child" id="call">
-        <div class="row">
-          <h2> برای تماس <b> با من </b> ایمیل دهید</h2>
-          <div class="col-12 col-md-6 div-call-form mt-2">
-            <form>
-              <input disabled type="text" placeholder="نام و نام خانوادگی">
-              <br>
-              <input disabled type="number" placeholder="شماره تماس">
-              <br>
-              <textarea disabled> با سلام و خسته نباشید... </textarea>
-          </div>
-          <div class="col-12 col-md-6 mt-2 div-call-list">
-            <ul>
-              <li> شماره تماس: <span> .. </span> </li>
-              <li> محل سکونت: <span> قم </span> </li>
-              <li> ایمیل: <span> hasanzade.hoseyn27@gmail.com </span> </li>
-              <li> وب سایت: <span> www..com </span> </li>
-            </ul>
-          </div>
-        </div>
-        <div class="row mt-2 div-blog-submit">
-          <div class="col">
-            <button disabled type="submit"> ارسال پیغام </button>
-            </form>
-          </div>
-        </div>
-      </div><!-- پایان تماس با من -->
-
-    </div><!-- پایان محتوای اصلی page col -->
-  </div><!-- پایان row -->
-</section>
-
-<!-- سایدبار موبایل (پیشفرض بسته است) -->
-<div class="sidebar sidebar-mobile p-0 d-md-none">
-  <div class="div-sidebar-mobile">
-    <div class="img-div mb-3"></div>
-    <div class="navbar-div mb-3">
-      <ul>
-        <div class="d-flex div-menu active-menu" onclick="activePage('#about')">
-          <i class="fa fa-user"></i>
-          <li> درباره من </li>
-        </div>
-        <div class="d-flex div-menu" onclick="activePage('#resume')">
-          <i class="fa-solid fa-file-lines"></i>
-          <li> رزومه من </li>
-        </div>
-        <!-- گزینه «خدمات» قبلاً حذف شده چون سکشنی با id="service" نداریم -->
-        <div class="d-flex div-menu" onclick="activePage('#project')">
-          <i class="fa-solid fa-cubes-stacked"></i>
-          <li> نمونه کارها </li>
-        </div>
-        <div class="d-flex first-child-li div-menu" onclick="activePage('#call')">
-          <i class="fa-solid fa-phone-volume"></i>
-          <li> تماس با من </li>
-        </div>
-      </ul>
-    </div>
-    <div class="setting-div">
-      <ul>
-        <div class="accordion accordion-flush" id="accordionFlushExample2">
-          <div class="d-flex collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOneMob">
-            <div><i class="fa fa-gear"></i></div>
-            <li> تنظیمات </li>
-            <i class="fa-solid fa-angle-down down-up-d"></i>
-          </div>
-        </div>
-        <div id="flush-collapseOneMob" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample2">
-          <div class="d-flex accordion-body div-color">
-            <li>
-              <p> رنگ </p>
-              <button class="button-color-style orange" value="orange"></button>
-              <button class="button-color-style pink" value="pink"></button>
-              <button class="button-color-style purple" value="purple"></button>
-              <button class="button-color-style gold" value="gold"></button>
-              <button class="button-color-style brown" value="brown"></button>
-              <button class="button-color-style red" value="red"></button>
-              <button class="button-color-style blue" value="blue"></button>
-              <button class="button-color-style green" value="green"></button>
-            </li>
-          </div>
-          <div class="d-flex accordion-body div-color">
-            <li>
-              <p> تنظیم دستی رنگ </p>
-              <div class="d-flex mt-2 div-custom-color">
-                <p> رنگ اصلی </p>
-                <input type="color" value="#FFCC00" oninput="getColorCodeOne(this.value)" class="custom-color">
-              </div>
-              <div class="d-flex mt-2 div-custom-color">
-                <p> رنگ فرعی </p>
-                <input type="color" value="#000" oninput="getColorCodeTwo(this.value)" class="custom-color">
-              </div>
-            </li>
-          </div>
-          <div class="accordion-body div-color" style="border-bottom:none !important;">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                فونت عنوان
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><button class="dropdown-item title" value="vazir" style="font-family: Vazir !important;"> وزیر </button></li>
-                <li><button class="dropdown-item title" value="Estedad" style="font-family: Estedad !important;"> استعداد </button></li>
-                <li><button class="dropdown-item title" value="IranSans" style="font-family: IranSans !important;"> ایران سنس </button></li>
-                <li><button class="dropdown-item title" value="Lalezar" style="font-family: Lalezar !important;"> لاله زار </button></li>
-                <li><button class="dropdown-item title" value="titr" style="font-family: titr !important;"> تیتر </button></li>
-                <li><button class="dropdown-item title" value="yekan" style="font-family: Yekan !important;"> یکان </button></li>
-                <li><button class="dropdown-item title" value="Shabnam" style="font-family: Shabnam !important;"> شبنم </button></li>
-                <li><button class="dropdown-item title" value="Sahel" style="font-family: Sahel !important;"> ساحل </button></li>
-                <li><button class="dropdown-item title" value="Tanha" style="font-family: Tanha !important;"> تنها </button></li>
-                <li><button class="dropdown-item title" value="Samim" style="font-family: Samim !important;"> صمیم </button></li>
-                <li><button class="dropdown-item title" value="Rezvan" style="font-family: Rezvan !important;"> رضوان </button></li>
-              </ul>
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                فونت متن
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <li><button class="dropdown-item text" value="vazir" style="font-family: Vazir !important;"> وزیر </button></li>
-                <li><button class="dropdown-item text" value="Estedad" style="font-family: Estedad !important;"> استعداد </button></li>
-                <li><button class="dropdown-item text" value="IranSans" style="font-family: IranSans !important;"> ایران سنس </button></li>
-                <li><button class="dropdown-item text" value="Lalezar" style="font-family: Lalezar !important;"> لاله زار </button></li>
-                <li><button class="dropdown-item text" value="titr" style="font-family: titr !important;"> تیتر </button></li>
-                <li><button class="dropdown-item text" value="yekan" style="font-family: Yekan !important;"> یکان </button></li>
-                <li><button class="dropdown-item text" value="Shabnam" style="font-family: Shabnam !important;"> شبنم </button></li>
-                <li><button class="dropdown-item text" value="Sahel" style="font-family: Sahel !important;"> ساحل </button></li>
-                <li><button class="dropdown-item text" value="Tanha" style="font-family: Tanha !important;"> تنها </button></li>
-                <li><button class="dropdown-item text" value="Samim" style="font-family: Samim !important;"> صمیم </button></li>
-                <li><button class="dropdown-item text" value="Rezvan" style="font-family: Rezvan !important;"> رضوان </button></li>
-              </ul>
-            </div>
-          </div>
-        </ul>
       </div>
     </div>
   </div>
-</div><!-- پایان سایدبار موبایل -->
+  <!-- پایان سایدبار موبایل -->
 
-<!-- اسکریپت‌های موردنیاز -->
-<script src="jquery/jquery-3.7.1.min.js"></script>
-<script src="bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
-<script src="fontawesome/js/all.min.js"></script>
-<script src="Swiperjs/swiper-bundle.min.js"></script>
-<!-- فایل اصلی اسکریپت شما اگر لازم است -->
-<script src="script.js"></script>
+  <!-- اسکریپت‌ها -->
+  <script src="jquery/jquery-3.7.1.min.js"></script>
+  <script src="bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
+  <script src="fontawesome/js/all.min.js"></script>
+  <script src="Swiperjs/swiper-bundle.min.js"></script>
+  <!-- اسکریپت اصلی شما -->
+  <script src="script.js"></script>
 
-<script>
-  // تابع نمایش سکشن مربوطه با کلیک روی منو
-  function activePage(id) {
-    document.querySelectorAll(".page-child").forEach(function(child) {
-      child.classList.remove("active");
-    });
-    document.querySelector(id).classList.add("active");
-    // منوها
-    document.querySelectorAll(".div-menu").forEach(function(menu) {
-      menu.classList.remove("active-menu");
-    });
-    event.currentTarget.classList.add("active-menu");
-
-    // در موبایل، بعد از کلیک روی آیتم منو، سایدبار بسته شود:
-    if(window.innerWidth < 768){
-      toggleSidebarMobile();
+  <script>
+    // تابع فعال‌سازی صفحه
+    function activePage(id) {
+      document.querySelectorAll(".page-child").forEach(function(child) {
+        child.classList.remove("active");
+      });
+      document.querySelector(id).classList.add("active");
+      document.querySelectorAll(".div-menu").forEach(function(menu) {
+        menu.classList.remove("active-menu");
+      });
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add("active-menu");
+      }
     }
-  }
 
-  // باز و بسته کردن سایدبار موبایل
-  function toggleSidebarMobile() {
-    document.querySelector(".sidebar-mobile").classList.toggle("active-sidebar");
-  }
+    // تابع باز و بسته کردن سایدبار موبایل
+    function toggleSidebarMobile() {
+      document.querySelector('.sidebar-mobile').classList.toggle('sidebar-open');
+    }
 
-  // فعال کردن اسلایدر مودال‌های پروژه
-  document.querySelectorAll(".modal-content").forEach(function(modal) {
-    var thumbSwiper = new Swiper(modal.querySelector(".mySwiper-project"), {
-      spaceBetween: 5,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesProgress: true
+    // تابع تغییر تم (روز/شب)
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const icon = document.querySelector('.div-night i');
+      if (document.body.classList.contains('dark-theme')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    }
+
+    // اسلایدرهای پروژه در مدال‌ها
+    document.querySelectorAll(".modal-content").forEach(function(modal) {
+      var thumbSwiper = new Swiper(modal.querySelector(".mySwiper-project"), {
+        spaceBetween: 5,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true
+      });
+      new Swiper(modal.querySelector(".mySwiper2-project"), {
+        spaceBetween: 5,
+        navigation: {
+          nextEl: modal.querySelector(".swiper-button-next"),
+          prevEl: modal.querySelector(".swiper-button-prev")
+        },
+        thumbs: {
+          swiper: thumbSwiper
+        }
+      });
     });
-    new Swiper(modal.querySelector(".mySwiper2-project"), {
-      spaceBetween: 5,
-      navigation: {
-        nextEl: modal.querySelector(".swiper-button-next"),
-        prevEl: modal.querySelector(".swiper-button-prev")
-      },
-      thumbs: {
-        swiper: thumbSwiper
+
+    // بستن منو با کلیک بیرون
+    document.addEventListener('click', function(e) {
+      const sidebarMobile = document.querySelector('.sidebar-mobile');
+      const hamburgerIcon = document.querySelector('.hamburger-icon');
+      // اگر کلیک خارج از سایدبار و خارج از آیکون همبرگر باشد و منو هم باز باشد، آن را ببند
+      if (
+        sidebarMobile.classList.contains('sidebar-open') &&
+        !sidebarMobile.contains(e.target) &&
+        (!hamburgerIcon || !hamburgerIcon.contains(e.target))
+      ) {
+        toggleSidebarMobile();
       }
     });
-  });
-
-  // تغییر رنگ اصلی (CSS variable)
-  function getColorCodeOne(color) {
-    document.documentElement.style.setProperty('--one-color', color);
-  }
-  // تغییر رنگ فرعی (CSS variable)
-  function getColorCodeTwo(color) {
-    document.documentElement.style.setProperty('--tow-color', color);
-  }
-</script>
-
+  </script>
 </body>
 </html>
