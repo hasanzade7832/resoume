@@ -11,6 +11,7 @@
   <link href="photo/icon/favicon.png" rel="icon">
   <link href="Swiperjs/swiper-bundle.min.css" rel="stylesheet">
   <style>
+    /* ===== Main project styles ===== */
     .project .project-div {
       position: relative;
       height: 250px;
@@ -49,12 +50,48 @@
     .swiper-button-next, .swiper-button-prev {
       color: #000;
     }
+    
+    /* ===== Mobile Sidebar ===== */
+    .sidebar-mobile {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 280px;
+      height: 100vh;
+      background-color: black;
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: all 0.3s ease-in-out;
+    }
+    .sidebar-mobile.sidebar-open {
+      transform: translateX(0);
+    }
+    
+    /* ===== Dark Theme ===== */
+    body.dark-theme {
+      background-color: #000 !important;
+      color: #f1f1f1 !important;
+    }
+    body.dark-theme .sidebar,
+    body.dark-theme .sidebar-mobile {
+      background-color: #000 !important;
+    }
+    body.dark-theme .sidebar-mobile .div-sidebar-mobile,
+    body.dark-theme .sidebar-mobile .navbar-div,
+    body.dark-theme .sidebar-mobile .setting-div,
+    body.dark-theme .sidebar-mobile .accordion-collapse,
+    body.dark-theme .sidebar-mobile .dropdown-menu,
+    body.dark-theme .sidebar-mobile ul,
+    body.dark-theme .sidebar-mobile li {
+      background-color: #000 !important;
+      color: #f1f1f1 !important;
+    }
   </style>
 </head>
 <body dir="ltr">
   <section class="container mt-4 mb-4">
     <div class="row">
-      <!-- Sidebar -->
+      <!-- Sidebar (Desktop) -->
       <div class="sidebar d-none d-md-block col-md-2 m-2 p-0">
         <div class="navbar-div mb-3">
           <div class="img-div mb-3">
@@ -153,31 +190,13 @@
               </div>
             </div>
           </ul>
-          <div class="button-sidebar-mobile">
-            <!-- Language switch without onclick so that the anchor works normally -->
-            <a href="index.html">
-              <div class="language d-flex pb-2">
-                <i class="fa-solid fa-earth-americas RTL-E"></i>
-              </div>
-            </a>
-            <a>
-              <div class="button-sidebar">
-                <i class="fa-solid fa-angles-left"></i>
-                <div class="icon-sidebar-mobile button-sidebar"></div>
-              </div>
-            </a>
-            <a>
-              <div class="div-night d-flex pt-2">
-                <i class="fa-solid fa-sun"></i>
-              </div>
-            </a>
-          </div>
         </div>
       </div>
+      
       <!-- Page Content -->
       <div class="page col m-2">
         <div class="header mb-3">
-          <div class="row">
+          <div class="row align-items-center">
             <div class="col-12 col-lg-7 mb-3 mb-lg-0 name">
               <div class="row">
                 <div class="col-8 w-auto">
@@ -189,14 +208,18 @@
               </div>
             </div>
             <div class="col-12 col-lg-5 network">
-              <div class="row">
-                <div class="col-5 div-resume-link Rtl-Ltr">
-                  <div class="p-1 div-night">
-                    <i class="fa-solid fa-sun"></i>
-                  </div>
-                  <div class="p-1 language">
-                    <a href="index.html"><i class="fa-solid fa-earth-americas RTL-E"></i></a>
-                  </div>
+              <div class="row align-items-center">
+                <!-- Theme Toggle -->
+                <div class="col-auto p-1 div-night" onclick="toggleTheme()" style="color:#FFD700;">
+                  <i class="fa-solid fa-sun"></i>
+                </div>
+                <!-- Language Switch -->
+                <div class="col-auto p-1 language" style="color:#FFD700;">
+                  <a href="index.html"><i class="fa-solid fa-earth-americas RTL-E"></i></a>
+                </div>
+                <!-- Hamburger Icon (Mobile Only) -->
+                <div class="col-auto p-1 hamburger-icon d-block d-md-none" onclick="toggleSidebarMobile()" style="color:#FFD700; cursor:pointer;">
+                  <i class="fa-solid fa-bars" style="font-size:1.2rem;"></i>
                 </div>
               </div>
             </div>
@@ -968,33 +991,33 @@
           </div>
         </div>
       </div>
+      <!-- End Page Content -->
     </div>
   </section>
+  
   <!-- Mobile Sidebar -->
   <div class="sidebar sidebar-mobile p-0 d-md-none">
     <div class="div-sidebar-mobile">
-      <div class="img-div mb-3">
-        <!-- <img src="photo/user.jpg" width="100%"> -->
-      </div>
+      <div class="img-div mb-3"></div>
       <div class="navbar-div mb-3">
         <ul>
-          <div class="d-flex div-menu active-menu" onclick="activePage('#about', event)">
+          <div class="d-flex div-menu active-menu" onclick="activePage('#about', event); toggleSidebarMobile();">
             <i class="fa fa-user"></i>
             <li> About Me </li>
           </div>
-          <div class="d-flex div-menu" onclick="activePage('#resume', event)">
+          <div class="d-flex div-menu" onclick="activePage('#resume', event); toggleSidebarMobile();">
             <i class="fa-solid fa-file-lines"></i>
             <li> My Resume </li>
           </div>
-          <div class="d-flex div-menu" onclick="activePage('#service', event)">
+          <div class="d-flex div-menu" onclick="activePage('#service', event); toggleSidebarMobile();">
             <i class="fa-solid fa-briefcase"></i>
             <li> Services </li>
           </div>
-          <div class="d-flex div-menu" onclick="activePage('#project', event)">
+          <div class="d-flex div-menu" onclick="activePage('#project', event); toggleSidebarMobile();">
             <i class="fa-solid fa-cubes-stacked"></i>
             <li> Portfolio </li>
           </div>
-          <div class="d-flex first-child-li div-menu" onclick="activePage('#call', event)">
+          <div class="d-flex first-child-li div-menu" onclick="activePage('#call', event); toggleSidebarMobile();">
             <i class="fa-solid fa-phone-volume"></i>
             <li> Contact Me </li>
           </div>
@@ -1074,19 +1097,21 @@
             </div>
           </ul>
           <div class="button-sidebar-mobile">
+            <!-- Language Switch -->
             <a href="index.html">
-              <div class="language d-flex pb-2">
+              <div class="language d-flex pb-2" style="color:#FFD700;">
                 <i class="fa-solid fa-earth-americas RTL-E"></i>
               </div>
             </a>
-            <a>
-              <div class="button-sidebar">
+            <!-- Close Mobile Sidebar -->
+            <a href="javascript:void(0);" onclick="toggleSidebarMobile();">
+              <div class="button-sidebar" style="color:#FFD700;">
                 <i class="fa-solid fa-angles-left"></i>
-                <div class="icon-sidebar-mobile button-sidebar"></div>
               </div>
             </a>
-            <a>
-              <div class="div-night d-flex pt-2">
+            <!-- Theme Toggle -->
+            <a href="javascript:void(0);" onclick="toggleTheme();">
+              <div class="div-night d-flex pt-2" style="color:#FFD700;">
                 <i class="fa-solid fa-sun"></i>
               </div>
             </a>
@@ -1095,12 +1120,14 @@
       </div>
     </div>
   </section>
+  
   <script src="jquery/jquery-3.7.1.min.js"></script>
   <script src="bootstrap-5.3.2/js/bootstrap.bundle.min.js"></script>
   <script src="fontawesome/js/all.min.js"></script>
   <script src="script.js"></script>
   <script src="Swiperjs/swiper-bundle.min.js"></script>
   <script>
+    // Initialize Swiper for modal project sliders
     document.querySelectorAll(".modal-content").forEach(function(modal) {
       var thumbSwiper = new Swiper(modal.querySelector(".mySwiper-project"), {
         spaceBetween: 5,
@@ -1119,8 +1146,9 @@
         }
       });
     });
+
+    // Active page function
     function activePage(id, evt) {
-      // If the clicked element or its parent is an anchor, do not override default behavior.
       if(evt && (evt.target.tagName.toLowerCase() === 'a' || evt.target.closest('a'))) {
         return;
       }
@@ -1135,6 +1163,37 @@
         evt.currentTarget.classList.add("active-menu");
       }
     }
+
+    // Toggle Mobile Sidebar
+    function toggleSidebarMobile() {
+      document.querySelector('.sidebar-mobile').classList.toggle('sidebar-open');
+    }
+
+    // Toggle Theme (Light/Dark)
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const icon = document.querySelector('.div-night i');
+      if (document.body.classList.contains('dark-theme')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    }
+
+    // Close mobile sidebar when clicking outside
+    document.addEventListener('click', function(e) {
+      const sidebarMobile = document.querySelector('.sidebar-mobile');
+      const hamburgerIcon = document.querySelector('.hamburger-icon');
+      if (
+        sidebarMobile.classList.contains('sidebar-open') &&
+        !sidebarMobile.contains(e.target) &&
+        (!hamburgerIcon || !hamburgerIcon.contains(e.target))
+      ) {
+        toggleSidebarMobile();
+      }
+    });
   </script>
 </body>
 </html>

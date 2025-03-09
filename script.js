@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (document.body.dir == 'ltr') {
         fixedWord = "I am one ";
-        variableWords = ["programmer", "Graphic Designer", "site designer"];
+        variableWords = ["programmer","site designer"];
     }
 
     const typingTextElement = document.getElementById('typing-text');
